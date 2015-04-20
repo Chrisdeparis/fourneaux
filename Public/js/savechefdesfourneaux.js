@@ -3,32 +3,121 @@ var jusqua=30;
 var cmptARebours=jusqua;
 var sTime=null;
 
-  //$('.animSiteTop' ).css("visibility", "hidden");
-  //$('.animSiteLeft' ).css("visibility", "hidden");
+  $('.animSiteTop' ).css("visibility", "hidden");
+  $('.animSiteLeft' ).css("visibility", "hidden");
 
-/*5*/
-$("*[class*=animSite]").hide();
-//$("*[class*=animSite]" ).css("visibility", "hidden");
 
-function animerSite(anim){
-  slow=5000;
-  normal=3500;
-  fast=1500;
-  
-  
-  $(".animSiteFadeInSlow").fadeIn(slow);
-  $(".animSiteFadeInNormal").fadeIn(normal);
-  $(".animSiteFadeInFast").fadeIn(fast);
+function animerSiteTop(anim){
 
-  $(".animSiteShowSlow").show(slow);
-  $(".animSiteShowNormal").show(normal);
-  $(".animSiteShowFast").show(fast);
+  quoi=".animSiteTop";
+  //quoi=", div";
 
-  $(".animSiteSlideDownSlow").slideDown(slow);
-  $(".animSiteSlideDownNormal").slideDown(normal);
-  $(".animSiteSlideDownFast").slideDown(fast);
 
+  $(quoi).each(function(){ 
+
+
+    console.log("position", "#"+$(this).css("position")+"#");
+
+    //if( ($(this).css("position")==="absolute") || ($(this).css("position")==="relative")  ) {
+    if(true){
+      //sauvegarde les valeurs finales
+      var savTop=$(this).css("top");
+      var topDest=savTop;
+      var savPosition=$(this).css("position");
+
+      if (topDest==='auto') {
+        //topDest=$(this).position().top;
+        topDest=$(this).attr("animsavetop");
+      }
+      $(this).css("position",'absolute');
+      
+      //initialise
+      $(this).css({
+          'top':'-'+$(this).css("height")
+          
+      });
+      
+
+      //fait apparaitre
+      $(this).css("visibility", "visible");
+
+      //animerElement(this, 'top', savTop);
+
+  //anime
+      $(this).animate(
+          {
+            top: topDest
+          },
+           Math.round(Math.random()*5000)
+         ,function() {
+            $(this).css("top",savTop);
+            $(this).css("position",savPosition);
+          }
+      );
+
+    }
+
+  })
 }
+
+
+
+function animerSiteLeft(anim){
+
+  quoi=".animSiteLeft";
+  //quoi=" div";
+  //
+
+
+
+  $(quoi).each(function(){ 
+
+
+    console.log("Lftposition", "#"+$(this).css("position")+"#");
+
+    //if( ($(this).css("position")==="absolute") || ($(this).css("position")==="relative")  ) {
+    if(true){
+      //sauvegarde les valeurs finales
+      var savLeft=$(this).css("left");
+      var leftDest=savLeft;
+      var savPosition=$(this).css("position");
+
+      /*if (leftDest==='auto') {
+        leftDest=$(this).attr("animsaveleft");
+      }*/
+      leftDest=$(this).attr("animsaveleft");
+      topDest=$(this).attr("animsavetop");
+      $(this).css("position",'absolute');
+      
+      //initialise
+      $(this).css({
+          'left':'-'+$(this).css("width")
+          
+      });
+      
+
+      //fait apparaitre
+      $(this).css("visibility", "visible");
+
+      //animerElement(this, 'top', savLeft);
+
+  //anime
+      $(this).animate(
+          {
+            left: leftDest
+          },
+           Math.round(Math.random()*5000)
+         ,function() {
+            $(this).css("left",savLeft);
+            $(this).css("position",savPosition);
+          }
+      );
+
+    }
+
+  })
+}
+
 
 
 
@@ -38,9 +127,16 @@ $(document).ready(function(){
 
     $("#easteregg").hide();
 
-    if (true) {
-      animerSite("vas y");
-    };
+    $(".animSiteTop, .animSiteLeft" ).each(function(){
+      $(this).attr("animsavetop", $(this).position().top );
+      $(this).attr("animsaveleft", $(this).position().left );  
+      
+    });
+    animerSiteTop("initial");
+    animerSiteLeft("initial");
+    
+    animerSiteLeft("initial");
+
 
     $('body').click(function(){
       cmptARebours--;
@@ -76,11 +172,8 @@ $(document).ready(function(){
         jsonData = {
           'service'     : 'Recherche',
           'method'      : 'getAutoCompletion',
-          'ou'          : 'titre',
           'recherche'   : $('#inputTextSearch').val()
         };
-
-        
 
         nbrRes=0;
         $.ajax({
@@ -327,7 +420,5 @@ var easterEgg = function() {
   step();
 
 };
-
-
 
 

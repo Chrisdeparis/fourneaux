@@ -7,8 +7,8 @@ namespace Application\Models;
 class ViewRecette extends \Library\Model\Model{
 
 
-	public function __construct($connexionName){
-		parent::__construct($connexionName);
+	public function __construct(){
+		parent::__construct();
 	}
 
 
@@ -19,22 +19,10 @@ class ViewRecette extends \Library\Model\Model{
 	 */
 	public function getViewRecette($id){
 
-		$opts = array('http' =>
-		    array(
-		        'method'  => 'POST',
-		        'header'  => 'Content-type: application/x-www-form-urlencoded',
-		        'content' => http_build_query(
-								array(
-							        'service' => 'ViewRecette',				
-							        'method' => 'getViewRecette',
-							        'id_recette' => $id
-							    )
-		    				)
-		        )
-		);
+		return $this->webserviceRequest("GET", "ViewRecette","getViewRecette",array(
+			"id_recette"=>$id
+		));
 
-		$context  = stream_context_create($opts);
-		return  $this->convEnTab(json_decode( file_get_contents(WEBSERVICE_ROOT.'/index.php', false, $context) ) ) ;
 	}
 
 	/**
@@ -47,21 +35,17 @@ class ViewRecette extends \Library\Model\Model{
 		$tabVR=array();
 
 		foreach ($tabId as $id) {
-			$re7=$this->getViewRecette($id);
-			if($re7['error']){
-				$re7=false;
+			$recettes = $this->getViewRecette($id);
+			if($recettes['error']){
+				$recettes = false;
 			}else{
-				echo ($re7['page'])."<br>";
-				$re7=$re7['response'];
+				echo ($recettes['page'])."<br>";
+				$recettes = $recettes['response'];
 			}
-			//var_dump($re7);
-
-			$tabVR[$id+'']=$re7;
+			$tabVR[$id+''] = $recettes;
 
 		}
-
 		return $tabVR;
-		//var_dump($tabVR);
 	}
 
 
@@ -72,49 +56,25 @@ class ViewRecette extends \Library\Model\Model{
 	 */
 	public function getAllViewRecettes(){
 
-		$opts = array('http' =>
-		    array(
-		        'method'  => 'POST',
-		        'header'  => 'Content-type: application/x-www-form-urlencoded',
-		        'content' => http_build_query(
-								array(
-							        'service' => 'ViewRecette',				
-							        'method' => 'getAllViewRecettes',
-							    )
-		    				)
-		        )
-		);
-		
-		$context  = stream_context_create($opts);
-		return  $this->convEnTab(json_decode( file_get_contents(WEBSERVICE_ROOT.'/index.php', false, $context) ) ) ;
+		return $this->webserviceRequest("GET", "ViewRecette","getAllViewRecettes",array());
 
 	}
 
 
 
 	/**
-	 * @return [array]              [description]
+	 * getRecherche effectue une recherche dans un champ de la table recette
+	 * @param  string $recherche la chaine à rechercher
+	 * @param  type $champs    dans quel champ de la table recette on cherche
+	 * @return array comme reponse du webservice
 	 */
 	public function getRecherche($recherche, $champs){
+
 		$data =array(
-			        'service' 				=> 'Recherche',				
-			        'method' 				=> 'getRecherche',
-			        'recherche'				=> $recherche,
+			        'Recherche'				=> $recherche,
         			'ou'					=> $champs
 	  	);
-
-		$opts = array('http' =>
-		    array(
-		        'method'  => 'POST',
-		        'header'  => 'Content-type: application/x-www-form-urlencoded',
-		        'content' => http_build_query($data)
-		        )
-		);
-
-		$context  = stream_context_create($opts);
-		
-		return $this->convEnTab(json_decode(file_get_contents(WEBSERVICE_ROOT.'/index.php', false, $context) ));
-		
+		return $this->webserviceRequest("GET", "Recherche","getRecherche",$data);
 	}
 
 

@@ -1,13 +1,9 @@
 
 
-
 $(document).ready(function(){
 
         $('#addCommentaire').click(function(){
-           //document.getElementById("commValue").text="fjskfjd";
-            
             if (tinyMCE.get('commValue').getContent()!=="") {
-                alert("dans le if"+$("#noteValue").val());
                 ajouterCommentaire(tinyMCE.get('commValue').getContent(), $("#noteValue").val());
             }
         });
@@ -16,7 +12,7 @@ $(document).ready(function(){
 
 
 function ajouterCommentaire(value, note){
-    alert(value+ "   "+ note);
+    //alert(value+ "   "+ note);
     jsonData = 
     {
         'service'   : 'Commentaire',
@@ -28,21 +24,22 @@ function ajouterCommentaire(value, note){
     };
 
     script="";
-    alert(urlWebService);
+    //alert(urlWebService);
     $.ajax({
         type: 'POST',
         data: jsonData,
         url: urlWebService,
-        dataType: 'jsonp',
-        jsonpCallback: 'callback',
-        async :true,
+        dataType: 'json',
+        async :false,
         success: function(data) {
-            //console.log(data.response);
             idComm = parseInt((data.response));
-            //console.log("id du comm",idComm);
-            alert("dans succces ajout"+idComm);
-            //console.log(data.response,"id insert :"+idComm);
-            ajouterCommDansDiv(idComm);
+            
+            if(idComm>0){
+                ajouterCommDansDiv(idComm);
+            }else{
+                alert("erreur pendant l'ajout du commentaire");
+            }
+            
         }
 
     });
@@ -62,22 +59,44 @@ function ajouterCommDansDiv(idComm){
         'id_com'        : idComm
     };
 
+
+/* <div class="panel panel-default headerCom">
+                <div class="panel-heading">
+                    Na 
+                    <span class="badge">
+                        1 / 5
+                    </span>
+                </div>
+                <div class="panel-body">
+                    <p><p>nouveau com3</p></p>
+                    
+                                        <p>19-04-2015  16:23</p>
+                    <p></p>
+                </div>
+            </div>
+*/
     $.ajax({
         type: 'POST',
         data: jsonData,
         url: urlWebService,
-        dataType: 'jsonp',
-        jsonpCallback: 'callback',
+        dataType: 'json',
         success: function(data) {
             console.log(data.response);
 
-            html="<hr>\
-                    <div>\
-                        <p>"+data.response[0].value+"</p>\
-                        <p>"+data.response[0].note+" / 5</p>\
-                        <p>"+data.response[0].pseudo+"</p>\
-                        <p>"+data.response[0].update+"</p>\
-                    </div>";
+            html="\
+            <div class='panel panel-default headerCom'>\
+                    <div class='panel-heading'>\
+                        "+data.response[0].pseudo+"\
+                        <span class='badge'>\
+                            "+data.response[0].note+" / 5\
+                        </span>\
+                    </div>\
+                    <div class='panel-body'>\
+                        "+data.response[0].value+"\
+                            <p>"+data.response[0].update+"</p>\
+                    </div>\
+                </div>
+                ";
 
             $('#WrapperComms').append(html);
             $("#divCom").hide('slow');

@@ -27,7 +27,6 @@ class User extends \Library\Controller\Controller{
 		$this->setDataView(array("message" => ""));
 
 		if(isset($_POST['btn'])){
-
 			if(empty($_POST['nom'])){
 				$this->message->addError("Nom vide !");
 			}elseif(strlen($_POST['nom'])>50){
@@ -75,16 +74,13 @@ class User extends \Library\Controller\Controller{
 			$user=$modelUser->convEnTab($user);
 			var_dump("dqdf", $user);
 			$user=$user['response'][0];
-			//var_dump("dqdf", $user);
 			if(!empty($user)){
 
-
-				unset( $_POST['btn'],$_POST['password'], $_POST['confpassword'], $_POST['currentpassword'], $listMessage);
+				unset( $_POST['btn'],$_POST['password'], $_POST['currentpassword'], $listMessage);
 
 				$_POST['password']=$password;		//<== new password
-				var_dump($_POST);
+				var_dump('###########################################',$_POST);
 				$res=$modelUser->convEnTab($modelUser->updateUser($_SESSION['user']["id_user"],$_SESSION['user']["mail"] , $currentPassword, $_POST));
-				//echo "############".$res['page']."#############";
 				var_dump("resulta", $res);
 				echo $res['page'];
 				$res=$res['response'];
@@ -160,24 +156,10 @@ class User extends \Library\Controller\Controller{
 			
 			$user = $modelUser->convEnTab($modelUser->login($_POST['mail'], $_POST['password']) );
 			
-			/*object(stdClass)[9]
-			  public 'response' => 
-			    array (size=1)
-			      0 => 
-			        object(stdClass)[10]
-			          public 'id' => int 13
-			          public 'nom' => string 'nom1' (length=4)
-			          public 'prenom' => string 'prenom1' (length=7)
-			          public 'mail' => string 'mail1@hotmail.com' (length=17)
-			          public 'password' => string 'b4136225ae3ffed43874cec08fcf7330' (length=32)
-			          public 'update' => string '2015-02-01 09:06:40' (length=19)
-			  public 'apiError' => boolean false
-			  public 'apiErrorMessage' => string '' (length=0)
-			  public 'serverError' => boolean false
-			  public 'serverErrorMessage' => string '' (length=0)
-			*/
+			
 
-			//var_dump($user);die();
+			//var_dump($user);
+			echo $user['page'];
 			if(empty($user)){	//s'il y a une erreur
 				$this->message->addError("Erreur au niveau du webservice !");
 			}elseif ($user['apiError'] ) {
@@ -188,14 +170,7 @@ class User extends \Library\Controller\Controller{
 				$this->message->addError("Mail/Password non valide !"); // ou couple d'id/pwd en double
 			}else{			//tout roule
 				$user=$user['response'][0];
-					/*array (size=x)
-				          'id' => int 13
-				           'nom' => string 'nom1' (length=4)
-				           'prenom' => string 'prenom1' (length=7)
-				           'mail' => string 'mail1@hotmail.com' (length=17)
-				           'password' => string 'b4136225ae3ffed43874cec08fcf7330' (length=32)
-				           'update' => string '2015-02-01 09:06:40' (length=19)
-				    */
+				
 					
 				$_SESSION['user'] = $user;
 				header('location: '.LINK_ROOT);
@@ -262,7 +237,7 @@ class User extends \Library\Controller\Controller{
 			
 
 
-			$_POST['role']='membre';
+			
 			$_POST['date_naissance']=$_POST['date_naissance'];
 
 			$modelUser = new \Application\Models\User('localhost');
@@ -294,7 +269,7 @@ class User extends \Library\Controller\Controller{
 			$this->setRedirect(LINK_ROOT);
 		}
 
-		$this->setDataView(array("pageTitle" => "Delete"));
+		$this->setDataView(array("pageTitle" => "Suppression de votre compte"));
 
 
 		if(isset($_POST['btn'])){
@@ -318,6 +293,7 @@ class User extends \Library\Controller\Controller{
 			$_POST['id_user']=$_SESSION['user']['id_user'];
 
 			$modelUser = new \Application\Models\User('localhost');
+			var_dump($_POST);
 			$res=$modelUser->convEnTab($modelUser->deleteUser($_POST));
 
 			$res=$res['response'];
@@ -326,9 +302,10 @@ class User extends \Library\Controller\Controller{
 
 			
 			if($res){
+				$this->setRedirect(LINK_ROOT);
 				$this->message->addSuccess("Compte supprimé");
 				unset($_SESSION['user']);
-				$this->setRedirect(LINK_ROOT.'user/login'); 	
+				 	
 			}else{
 				$this->message->addError("mot de passe erroné  !");
 
@@ -348,10 +325,10 @@ public function motDePasseOublieAction(){
 		$modelMailer = new \Application\Models\Mailer('localhost');		
 
 		$modelQuestionSecrete = new \Application\Models\QuestionSecrete('localhost');
-		$questionSecretes = $this->convEnTab( $modelQuestionSecrete->getQuestionSecretes() );
-
+		$questionSecretes =  $modelQuestionSecrete->getQuestionSecretes() ;
+		//var_dump("sdjfk",$questionSecretes);
 		$questionSecretes=$questionSecretes['response'];
-		
+		//var_dump("sdjfk",$questionSecretes);
 
 
 		$this->setDataView(array("pageTitle" => "Mot de passe oubli&eacute;","message" => ""));

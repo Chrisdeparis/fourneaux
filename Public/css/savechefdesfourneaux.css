@@ -1,87 +1,71 @@
-body{
-	max-width: 1600px;
-	margin: 0 auto;
-}
-.contentView{
-	background-color: #222;
-}
-
-.containerView{
-	background-color: #FFF;
-}
-
-/* NAVBAR */
-/* .containerNav{
+.containerNav{
 	background-color: #FFF;
 	font-weight: bold;
 	height: 200px;
-} */
-/* .navbar-nav {
-  margin-top: 15px;
-  border-radius: 10px;
-} */
+}
 
+.content_view{
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+/* NAVBAR */
+.navbar-nav {
+  margin-top: 15px;
+  background-color: #d8ecf2;
+  border-radius: 10px;
+}
 .lienChefDesFourneaux{
 	padding-top: 0px;
 }
 .lienChefDesFourneaux img{
-	width:64%; 
+	width:63%; 
 	top:0;
 }
-.dropdown-menu{
-	width: 100%;
+.lienChefDesFourneaux:hover{
+	background-color: #777;
+	padding-top: 0px;
 }
-.menuLiens{
-	text-align: center;
-}
+/* .activeLink{
+	background-color: #E4E4E4;
+	border-radius: 10px;
+} */
+
 /* END NAVBAR */
 
-/* SEARCH BAR */
-#wrapperSearchBar{
-	background-color: #FFF;
-	padding: 6px;
-} 
-
-/* END SEARCH BAR */
-
-
-
-.menu{
-	height: 150px;
-}
-/* CONTENT VIEW */
-.content_view{
-	/* margin-top: 70px; */
-	margin-bottom: 50px;
+.separator{
+	height: 200px;
 }
 
-/* END CONTENT VIEW */
 
-/* AFFILIATION */
-#affiliation{
-	text-align: center;
-	background-color: rgba(255,255,255,1); 
-}
-
-#affiliation img{
-	width: 50%;
-}
-/* END AFFILIATION */
-
-/* POPUP */
+/* PopUp */
 
 #showDivContainer{ /* Fond translucide */
 	width: 400px;
 	height: auto;
+	/* top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+	 */
 	background-color: rgba(255,255,255,0.5);
+	/* position: fixed; 
+	z-index: 1;*/
 	display: none;
 }
 
 #inputShowDiv{
 	background-color: rgba(255,255,255,1);
+	/* display: none; 
+	margin: auto; */
 	color: #FFF;
+	/*margin-top: 15%;
+	width: 40%;
+	height: 30%;*/
 	background-color: #000;
 	border: 3px;
+	/*position: relative;
+	 z-index: 2000;	 */
 }
 
 .inputTextShowDiv{
@@ -102,7 +86,7 @@ body{
 	text-align: center;
 }
 
-/* END POPUP */
+/* Fin Popup */
 
 /* Mise en forme des ingredients*/
 
@@ -112,20 +96,12 @@ body{
 
 /* Fin de la mise en forme des ingrédients */
 
-.buttonNav{
-	text-align: right;
-}
-
-.buttonNav .btn{
-	line-height: 2.5;
-	background-color: #E39942;
-	color: white;
-	width: 100%;
-
-}
 /* Mise en forme Panier*/
-/* #panier{
-	background-color: rgba(222,222,222,1);
+.lienPanier{
+	margin-left: 350px; 
+}
+#panier{
+	/*background-color: rgba(222,222,222,1);*/
 	position: inherit;
 	z-index: 2000;
 	right: 0;
@@ -134,11 +110,15 @@ body{
 	line-height: 20px;
 	display: block;
 	float: right;
-} */
-/* #panier .btn{
+}
+#panier .btn{
 	line-height: 2.5;
-} */
+}
 
+#panier .btn-default{
+	background-color: rgba(65,193,235,0.5);
+	font-weight: bold;
+}
 
 #panierContent{
 	display: inline;
@@ -163,32 +143,15 @@ body{
 }
 
 
-footer{
-	text-align: center;
-}
-
-footer img{
-	width: 60px;
-	height: 60px;
-	margin-left: 20px;
-	margin-right: 20px; 
-}
-
-/* 
-@media only screen and (max-width:1200px){
-    body{
-        background: #000;
-    }
-    .wrapper{
-        width: 960px;
-    }
-} */
 
 
 
 
 
-/* Responsive
+
+
+
+/*Responsive*/
 @media (max-width: 1200px) {
 	.lienPanier{
 		margin-left: 230px;
@@ -207,13 +170,13 @@ footer img{
 		padding-top: 9px;
 	}
 	
-	.lienPanier{
+	/* .lienPanier{
 		margin-left: 0px;
 		margin-right: 0px;
 		top: 0;
 		left: 0;
 		float: left;
-	}
+	} */
 }
 
 @media (max-width: 322px) {
@@ -244,4 +207,4 @@ footer img{
 		float: left;
 	}
 }
-Fin Responsive */
+/* Fin Responsive */
